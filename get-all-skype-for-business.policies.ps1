@@ -15,11 +15,11 @@ $ignorefields = "XsAnyElements,XsAnyAttributes,PSComputerName,RunspaceId,PSShowC
 $policies = Get-CsConferencingPolicy | select Identity
 
 function GetHeader ([string]$policy, $properties) {
-    $p = "Identity$separator"
+    $p = "`"Identity`"$separator"
     $properties.PSObject.Properties | foreach-object {
         $propname = $_.Name.Tostring()
         if ($ignorefields -notmatch $propname) {
-            $p += "$propname$separator"
+            $p += "`"$propname`"$separator"
         }
     }
     $p += [Environment]::NewLine
@@ -27,15 +27,15 @@ function GetHeader ([string]$policy, $properties) {
 }
 
 function GetProperties ([string]$policy, $properties) {
-    $p = "$policy$separator"
+    $p = "`"$policy`"$separator"
     $properties.PSObject.Properties | foreach-object {
         $propname = $_.Name.Tostring()
         $propvalue = $_.Value
          if ($ignorefields -notmatch $propname) {
             if ($propvalue -and $propvalue.Tostring().StartsWith("<")) {
-                $propvalue ="[XML]"
+                $propvalue ="`"[XML]`""
             }
-            $p += "$propvalue$separator"
+            $p += "`"$propvalue`"$separator"
         }
     }
     $p += [Environment]::NewLine
