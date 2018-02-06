@@ -46,6 +46,33 @@ function Initialize-Authorization {
 # Initialize Authorization
 Initialize-AUthorization -TenantID $env:TenantID -ClientKey $env:AppSecret -AppID $env:AppID
 
+
+# Check if group is already existing
+# https://graph.microsoft.com/v1.0/groups?$filter=startswith(mail,'Project-13')
+try {
+    $uri = "https://graph.microsoft.com/v1.0/groups?`$filter=startswith(mail,'$EMail')"
+
+    $result = Invoke-RestMethod -Method Get `
+                            -Uri $uri `
+                            -ContentType 'application/json' `
+                            -Headers $script:APIHeader `
+
+    # and save the generated Group ID
+    $GroupID = $result.value.id
+    Write-Output "GroupID: $GroupID"
+} catch {
+    Write-Output "ERROR! $_"
+}
+
+# If $GroupID is empty...
+Write-Output "[$GroupID]"
+if ([bool]$GroupID) 
+{
+    $msg = "EXISTING: $EMail, $GroupID"
+}
+else
+{
+
 # Create the Office 365 group
 $json = @"
 { "displayName": "$GroupName",
@@ -107,5 +134,9 @@ $result = Invoke-RestMethod -Method Post `
     Write-Output "ERROR! $_"
 }
 
+
+}
+
 # return value
-Out-File -Encoding Ascii -FilePath $res -inputObject "End of group creation $GroupName"
+Out-File -Encoding Ascii -FilePath $res -inputObject $msg
+Write-Output $msg
