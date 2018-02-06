@@ -1,5 +1,5 @@
 # ProvisionGroup-PowerShell-Azure-Function.ps1
-# atwork.at, Martina Grom
+# atwork.at, Christoph Wilfing, Toni Pohl, Martina Grom
 
 $requestBody = Get-Content $req -Raw | ConvertFrom-Json
 $GroupName = $requestBody.GroupName
@@ -64,6 +64,7 @@ try {
     Write-Output "ERROR! $_"
 }
 
+
 # If $GroupID is empty...
 Write-Output "[$GroupID]"
 if ([bool]$GroupID) 
@@ -72,6 +73,7 @@ if ([bool]$GroupID)
 }
 else
 {
+
 
 # Create the Office 365 group
 $json = @"
