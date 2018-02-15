@@ -5,7 +5,11 @@ $requestBody = Get-Content $req -Raw | ConvertFrom-Json
 $GroupName = $requestBody.GroupName
 $upn = $requestBody.upn
 
-Write-Output "TenantID $env:TenantID -ClientKey $env:AppSecret -AppID $env:AppID"
+# Make email address safe...
+$EMail = $GroupName.Trim().Replace(" ","-")
+
+Write-Output "TenantID: $env:TenantID AppID: $env:AppID AppSecret: $env:AppSecret"
+Write-Output "GroupName: $GroupName EMail: $EMail UPN: $upn"
 
 function Initialize-Authorization {
     param
