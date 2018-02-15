@@ -68,7 +68,6 @@ try {
     Write-Output "ERROR! $_"
 }
 
-
 # If $GroupID is empty...
 Write-Output "[$GroupID]"
 if ([bool]$GroupID) 
@@ -77,13 +76,13 @@ if ([bool]$GroupID)
 }
 else
 {
-
+$msg = "CREATED: $EMail, $GroupID"
 
 # Create the Office 365 group
 $json = @"
 { "displayName": "$GroupName",
 "mailenabled" : true,
-"mailnickname":"$GroupName",
+"mailnickname":"$Email",
 "securityenabled" : true,
 "description": "$GroupName",
 "groupTypes": ["Unified"]
@@ -91,25 +90,31 @@ $json = @"
 "@
 
 try {
-$result = Invoke-RestMethod -Method Post `
+    $result = Invoke-RestMethod -Method Post `
                             -Uri "https://graph.microsoft.com/v1.0/groups" `
                             -ContentType 'application/json' `
                             -Headers $script:APIHeader `
                             -Body $json `
                             -ErrorAction Stop
 
-# and save the generated Group ID
-$GroupID = $result.id
+    # and save the generated Group ID
+    $GroupID = $result.id
+    Write-Output "GroupID: $GroupID"
 } catch {
     Write-Output "ERROR! $_"
 }
 
 # Get the User ID
-$OwnerObject = Invoke-RestMethod -Method Get `
+try {
+    $OwnerObject = Invoke-RestMethod -Method Get `
                             -Uri "https://graph.microsoft.com/v1.0/users/$upn" `
                             -ContentType 'application/json' `
                             -Headers $script:APIHeader `
                             -ErrorAction Stop
+    Write-Output $OwnerObject.UserPrincipalName
+} catch {
+    Write-Output "ERROR! $_"
+}
 
 # Add User as Owner
 $json = @"
@@ -117,12 +122,13 @@ $json = @"
 "@
 
 try {
-$result = Invoke-RestMethod -Method Post `
+    $result = Invoke-RestMethod -Method Post `
                             -Uri "https://graph.microsoft.com/v1.0/groups/$GroupID/owners/`$ref" `
                             -ContentType 'application/json' `
                             -Headers $script:APIHeader `
                             -Body $json `
                             -ErrorAction Stop
+    Write-Output "Added owner: $GroupID"
 } catch {
     Write-Output "ERROR! $_"
 }
@@ -130,16 +136,16 @@ $result = Invoke-RestMethod -Method Post `
 
 # add user as Member
 try {
-$result = Invoke-RestMethod -Method Post `
+    $result = Invoke-RestMethod -Method Post `
                             -Uri "https://graph.microsoft.com/v1.0/groups/$GroupID/members/`$ref" `
                             -ContentType 'application/json' `
                             -Headers $script:APIHeader `
                             -Body $json `
                             -ErrorAction Stop
+    Write-Output "Added member: $GroupID"
 } catch {
     Write-Output "ERROR! $_"
 }
-
 
 }
 
