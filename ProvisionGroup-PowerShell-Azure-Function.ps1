@@ -8,7 +8,7 @@ $upn = $requestBody.upn
 # Make email address safe...
 $EMail = $GroupName.Trim().Replace(" ","-")
 
-Write-Output "TenantID: $env:TenantID AppID: $env:AppID AppSecret: $env:AppSecret"
+Write-Output "TenantID: $env:TenantID AppID: $env:AppID AppSecret: ***"
 Write-Output "GroupName: $GroupName EMail: $EMail UPN: $upn"
 
 function Initialize-Authorization {
