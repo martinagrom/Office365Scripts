@@ -1,3 +1,3 @@
-# Office365Scripts
-Some helpful PowerShell scripts for Microsoft Office 365.
-These scripts and code parts are for supporting IT Admins with their daily task with Office 365 and Azure and to automate workflows in specific scenarios.
+# Microsoft 365 Scripts
+
+This repository contains various helpful PowerShell scripts for administering Office 365 / Microsoft 365. This repository will be extended from time to time with small PowerShell scripts for automating different tasks in Microsoft 365.
