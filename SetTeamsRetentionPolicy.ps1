@@ -38,13 +38,13 @@ if ($Null -eq $cred) {
 # Retrieve all retention policies (if we need the list later...)
 $RetentionPolicyList = Get-RetentionCompliancePolicy -DistributionDetail
 
-# Get a specific policy (here the policy with Name "Delete 1")
+# Get a specific policy
 $OnePolicy = $RetentionPolicyList | Where-Object { $_.Name -eq "<PolicyName1>" }
 
-# Get a specific Team
+# Get all teams
 $TeamList = Get-Team
 
-# Get a specific policy (here the policy with Name "Delete 1")
+# Get a specific team
 $OneTeam = $TeamList | Where-Object { $_.DisplayName -eq "<TeamName1>" }
 
 # Set the policy to a team (there could be more policies assigned already - this case is ignored here)
