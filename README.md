@@ -1,3 +1,5 @@
 # Microsoft 365 Scripts
 
-This repository contains various helpful PowerShell scripts for administering Office 365 / Microsoft 365. This repository will be extended from time to time with small PowerShell scripts for automating different tasks in Microsoft 365.
+This repository is a collection of **useful PowerShell scripts** designed to manage Office 365 and Microsoft 365 environments.  
+This repository will be updated with new PowerShell scripts as they become available to streamlining various automation processes within Microsoft 365.
+
